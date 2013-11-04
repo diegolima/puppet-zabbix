@@ -1,5 +1,5 @@
 class zabbix::agent (
-  $hostname,
+  $hostname     = $::hostname,
   $logFile      = '/var/log/zabbix-agent/zabbix_agent.log',
   $logFileSize  = undef,
   $debugLevel   = '3',
@@ -10,14 +10,8 @@ class zabbix::agent (
   $smart        = true,
   $backuppc     = false,
   $ups          = false,
-  $motd         = true,
 ) {
 
-
-  if($motd)
-  {
-    motd::register{'Zabbix Agent': }
-  }
 
   if(! defined(Class['zabbix']))
   {

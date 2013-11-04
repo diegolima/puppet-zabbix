@@ -9,4 +9,8 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-include backuppc
+include sudo
+include zabbix
+class { 'zabbix::agent':
+  server => ['10.0.0.80','127.0.0.1'],
+}
