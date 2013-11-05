@@ -14,3 +14,7 @@ include zabbix
 class { 'zabbix::agent':
   server => ['10.0.0.80','127.0.0.1'],
 }
+class { 'zabbix::monitor::service':
+  name => 'ssh',
+  template => 'ssh_servers',
+}
