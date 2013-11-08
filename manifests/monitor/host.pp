@@ -35,19 +35,25 @@ class zabbix::monitor::host (
   Class['zabbix::monitor'] -> Class['zabbix::monitor::host']
   Exec { path => ['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin'] }
 
-  $h_apitalk   = "$::zabbix::monitor::params::api_host?hostname=$h_name&hostgroup=$h_group&dns=$h_hostname&ip=$h_ipaddress&use_ip=$h_useip&port=$h_port&status=$h_status&map_name=$h_mapname&layer=$h_maplayer"
+  $h_t_mapname   = inline_template("<% require 'cgi' %><%= CGI.escape(\"$h_mapname\") %>")
+  $h_t_group     = inline_template("<% require 'cgi' %><%= CGI.escape(\"$h_group\") %>")
+  $h_t_name      = inline_template("<% require 'cgi' %><%= CGI.escape(\"$h_name\") %>")
+  $h_t_hostname  = inline_template("<% require 'cgi' %><%= CGI.escape(\"$h_hostname\") %>")
+  $h_t_ipaddress = inline_template("<% require 'cgi' %><%= CGI.escape(\"$h_ipaddress\") %>")
+
+  $h_apitalk   = "$::zabbix::monitor::params::api_host?hostname=$h_t_name&hostgroup=$h_t_group&dns=$h_t_hostname&ip=$h_t_ipaddress&use_ip=$h_useip&port=$h_port&status=$h_status&map_name=$h_t_mapname&layer=$h_maplayer"
 
   exec{"apitalk::$::hostname":
-    command => "curl -o /dev/null -s $h_apitalk",
+    command => "curl -f -o /dev/null -s \'$h_apitalk\'",
     unless  => "test -f /tmp/apitalk::host::$::hostname",
-    notify  => [ Exec["apitalk::lock::$::hostname"], Notify["apitalk::$hostname - curl -o /dev/null -s $h_apitalk"] ],
+    notify  => [ Exec["apitalk::lock::$::hostname"], Notify["apitalk::$hostname - curl -f -o /dev/null -s $h_apitalk"] ],
   }
   exec{"apitalk::lock::$::hostname":
     command     => "touch /tmp/apitalk::host::$::hostname",
     refreshonly => true,
   }
-  notify {"apitalk::$::hostname - curl -o /dev/null -s $h_apitalk": }
+  notify {"apitalk::$::hostname - curl -f -o /dev/null -s $h_apitalk": }
 
-  Exec["apitalk::$::hostname"] -> Exec["apitalk::lock::$::hostname"] -> Notify["apitalk::$hostname - curl -o /dev/null -s $h_apitalk"]
+  Exec["apitalk::$::hostname"] -> Exec["apitalk::lock::$::hostname"] -> Notify["apitalk::$hostname - curl -f -o /dev/null -s $h_apitalk"]
 
 }

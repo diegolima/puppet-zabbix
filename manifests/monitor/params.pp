@@ -3,7 +3,6 @@ class zabbix::monitor::params {
     'Debian' => 'curl',
     'RedHat' => 'curl',
   }
-  $api_host    = 'http://localhost/host.php'
-  $api_service = 'http://localhost/service.php'
-
+  $api_host    = 'http://10.100.0.90/puppetTOzabbix/main.php'
+  $api_service = 'http://10.100.0.90/puppetTOzabbix/service.php'
 }

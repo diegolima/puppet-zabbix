@@ -17,17 +17,17 @@ class { 'zabbix::agent':
 }
 class { 'zabbix::monitor::host': 
   h_group    => 'phpuppet',
-  h_mapname  => 'phpuppet',
+  h_mapname  => 'RT Interno',
   h_maplayer => '20',
 }
 class { 'zabbix::monitor::service': }
 
 zabbix::service { 'Linux':
-  s_template => 'so_linux',
+  s_template => '4Linux - SO Linux',
 }
 zabbix::service { 'Apache2':
-  s_template => 'httpd_server',
+  s_template => '4Linux - Apache2',
 }
-zabbix::service { 'SSHd':
-  s_template => 'ssh_server',
+zabbix::service { 'ICMP':
+  s_template => '4Linux - ICMP',
 }
