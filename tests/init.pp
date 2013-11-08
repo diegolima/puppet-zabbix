@@ -17,17 +17,21 @@ class { 'zabbix::agent':
 }
 class { 'zabbix::monitor::host': 
   h_group    => 'phpuppet',
-  h_mapname  => 'RT Interno',
-  h_maplayer => '20',
+#  h_name     => 'My Host Name',         # Optional: Host name. Defaults to $::hostname
+#  h_hostname => 'hostname.example.com', # Optional: Host FQDN. Defaults to $::fqdn
+  h_mapname  => 'Sample Map',
+  h_maplayer => '10',
 }
 class { 'zabbix::monitor::service': }
 
 zabbix::service { 'Linux':
   s_template => '4Linux - SO Linux',
+# s_hostname => 'Backend2',              # Optional: Host name. Defaults to $::hostname
 }
 zabbix::service { 'Apache2':
   s_template => '4Linux - Apache2',
+# s_hostname => 'Backend2',              # Optional: Host name. Defaults to $::hostname
 }
-zabbix::service { 'ICMP':
-  s_template => '4Linux - ICMP',
-}
+#zabbix::service { 'ICMP':
+#  s_template => '4Linux - ICMP',
+#}
