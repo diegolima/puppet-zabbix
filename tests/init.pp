@@ -11,10 +11,23 @@
 #
 include sudo
 include zabbix
+
 class { 'zabbix::agent':
   server => ['10.0.0.80','127.0.0.1'],
 }
-class { 'zabbix::monitor::service':
-  name => 'ssh',
-  template => 'ssh_servers',
+class { 'zabbix::monitor::host': 
+  h_group    => 'phpuppet',
+  h_mapname  => 'phpuppet',
+  h_maplayer => '20',
+}
+class { 'zabbix::monitor::service': }
+
+zabbix::service { 'Linux':
+  s_template => 'so_linux',
+}
+zabbix::service { 'Apache2':
+  s_template => 'httpd_server',
+}
+zabbix::service { 'SSHd':
+  s_template => 'ssh_server',
 }
