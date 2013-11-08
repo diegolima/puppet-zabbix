@@ -20,7 +20,7 @@ class { 'zabbix::monitor::host':
 #  h_name     => 'My Host Name',         # Optional: Host name. Defaults to $::hostname
 #  h_hostname => 'hostname.example.com', # Optional: Host FQDN. Defaults to $::fqdn
   h_mapname  => 'Sample Map',
-  h_maplayer => '10',
+  h_maplayer => '20',
 }
 class { 'zabbix::monitor::service': }
 
