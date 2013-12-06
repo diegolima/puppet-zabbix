@@ -1,6 +1,6 @@
 class zabbix::agent (
   $hostname     = $::hostname,
-  $logFile      = '/var/log/zabbix-agent/zabbix_agent.log',
+  $logFile      = '/var/log/zabbix/zabbix_agent.log',
   $logFileSize  = undef,
   $debugLevel   = '3',
   $server       = ['127.0.0.1'],

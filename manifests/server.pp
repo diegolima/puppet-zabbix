@@ -1,7 +1,7 @@
 class zabbix::server (
   $listenPort              = '10051',
   $sourceIp                = undef,
-  $logFile                 = '/var/log/zabbix-server/zabbix_server.log',
+  $logFile                 = '/var/log/zabbix/zabbix_server.log',
   $logFileSize             = undef,
   $debugLevel              = '3',
   $pidFile                 = '/var/run/zabbix-server/zabbix_server.pid',
@@ -31,17 +31,11 @@ class zabbix::server (
   $trapperTimeout          = '300',
   $unreachablePeriod       = '45',
   $unavailableDelay        = '60',
-  $alertScriptsPath        = '/home/alkivi/zabbix/alert-scripts/',
-  $externalScripts         = '/home/alkivi/zabbix/external-scripts',
+  $alertScriptsPath        = '/opt/zabbix/alert-scripts/',
+  $externalScripts         = '/opt/zabbix/external-scripts',
   $fpingLocation           = '/usr/bin/fping',
   $fping6Location          = '/usr/sbin/fping6',
-  $motd                    = true,
 ) {
-
-  if($motd)
-  {
-    motd::register{ 'Zabbix Server': }
-  }
 
   if(! defined(Class['zabbix']))
   {
@@ -51,7 +45,11 @@ class zabbix::server (
 
   # declare all parameterized classes
   class { 'zabbix::server::params': }
-  class { 'zabbix::server::install': }
+  class { 'zabbix::server::install':
+    zabbix_db       => $dBName,
+    zabbix_user     => $dBUser,
+    zabbix_password => $dBPassword,
+  }
   class { 'zabbix::server::config': }
   class { 'zabbix::server::service': }
 

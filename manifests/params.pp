@@ -1,5 +1,5 @@
 class zabbix::params {
-  $zabbix_version = '2.0'
+  $zabbix_version = '2.2'
 
   # Deal with "derivated" distros
   $repo_distro    = $::lsbdistid ? {
@@ -8,6 +8,7 @@ class zabbix::params {
   }
   $repo_release   = $::lsbdistcodename ? {
     'luna'  => 'precise',
+    'saucy' => 'precise',
     default => inline_template("<%= @lsbdistcodename.downcase %>")
   }
 
