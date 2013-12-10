@@ -2,14 +2,19 @@ class zabbix::params {
   $zabbix_version = '2.2'
 
   # Deal with "derivated" distros
-  $repo_distro    = $::lsbdistid ? {
-    'elementary OS' => 'ubuntu',
-    default         => inline_template("<%= @lsbdistid.downcase %>")
-  }
-  $repo_release   = $::lsbdistcodename ? {
-    'luna'  => 'precise',
-    'saucy' => 'precise',
-    default => inline_template("<%= @lsbdistcodename.downcase %>")
+  if $osfamily == 'Debian' {
+    # Ubuntu offshoots
+    if $operatingsystem == 'Ubuntu' {
+      $repo_distro    = $::lsbdistid ? {
+        'elementary OS' => 'ubuntu',
+        default         => inline_template("<%= @lsbdistid.downcase %>")
+      }
+      $repo_release   = $::lsbdistcodename ? {
+        'luna'  => 'precise',
+        'saucy' => 'precise',
+        default => inline_template("<%= @lsbdistcodename.downcase %>")
+      }
+    }
   }
 
   $repo_arch      = $::architecture ? {
